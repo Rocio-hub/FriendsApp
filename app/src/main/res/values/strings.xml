@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Friends</string>
+    <string name="name">Name:</string>
+    <string name="address">Address:</string>
+    <string name="phone">Phone:</string>
+    <string name="mail">Mail:</string>
+    <string name="birthday">Birthday:</string>
+    <string name="web">Web:</string>
+    <string name="save">SAVE</string>
+    <string name="show">SHOW</string>
+    <string name="home">HOME</string>
+    <string name="peter_parker">Peter Parker</string>
+    <string name="nyc">NYC</string>
+    <string name="_123456">123456</string>
+    <string name="dec_28_1995">Dec 28 1995</string>
+    <string name="peter_avengers">peter@avengers</string>
+</resources>
