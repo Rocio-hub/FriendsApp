@@ -7,28 +7,31 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.easv.rtl.friends.FriendDao_Impl
-import com.easv.rtl.friends.IFriendDao
+import com.easv.rtl.friends.Data.BEFriend
 import com.easv.rtl.friends.ListAdapter
-import com.easv.rtl.friends.Model.BEFriend
 import com.easv.rtl.friends.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ListAdapter.OnItemClickListener {
 
     private val REQUEST_CODE = 1
     val TAG = "xyz"
-    lateinit var friendsRepo: IFriendDao
 
-   // var friendsList : List<BEFriend> = Friends().getAll()
+
+    // var friendsList : List<BEFriend> = Friends().getAll()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        friendsRepo = FriendDao_Impl(this)
-        var list: List<BEFriend> = friendsRepo.getAll()
-        myRecyclerView.adapter = ListAdapter(list, this)
+           //friendsRepo = FriendDao_Impl(this)
+           //var list: List<BEFriend> = friendsRepo.getAll()
+           //myRecyclerView.adapter = ListAdapter(list, this)
+
+
+       //var list: List<BEFriend> = friendsRepo.getAll() as List<BEFriend>
+        //myRecyclerView.adapter = ListAdapter(list, this)
     }
+
+
 
     override fun onItemClick(friends: BEFriend, position: Int) {
         Toast.makeText(this, friends.name, Toast.LENGTH_SHORT).show()
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.OnItemClickListener {
             when (resultCode) {
                 RESULT_OK -> {
                     var friend: BEFriend = data?.getSerializableExtra("MYFRIEND") as BEFriend
-                    if (isUpdate!=null && isUpdate)
+                    if (isUpdate != null && isUpdate)
                         updateFriend(friend, position)
                     else
                         addFriend(friend)
@@ -72,21 +75,21 @@ class MainActivity : AppCompatActivity(), ListAdapter.OnItemClickListener {
     }
 
     private fun addFriend(friend: BEFriend) {
-      /*  var list: MutableList<BEFriend> = friendsRepo.getAll().toMutableList()
-        list.add(friend)
-        myRecyclerView.adapter = ListAdapter(list, this) */
+        /*  var list: MutableList<BEFriend> = friendsRepo.getAll().toMutableList()
+          list.add(friend)
+          myRecyclerView.adapter = ListAdapter(list, this) */
     }
 
     private fun updateFriend(friend: BEFriend, position: Int) {
-     /*   var list: MutableList<BEFriend> = friendsRepo.getAll().toMutableList()
-        list[position] = friend
-        myRecyclerView.adapter = ListAdapter(list, this)*/
+        /*   var list: MutableList<BEFriend> = friendsRepo.getAll().toMutableList()
+           list[position] = friend
+           myRecyclerView.adapter = ListAdapter(list, this)*/
     }
 
     private fun deleteFriend(position: Int) {
-       /* var list: MutableList<BEFriend> = friendsRepo.getAll().toMutableList()
-        list.removeAt(position)
-        myRecyclerView.adapter = ListAdapter(list, this)*/
+        /* var list: MutableList<BEFriend> = friendsRepo.getAll().toMutableList()
+         list.removeAt(position)
+         myRecyclerView.adapter = ListAdapter(list, this)*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

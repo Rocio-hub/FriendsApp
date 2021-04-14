@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.easv.rtl.friends.Model.BEFriend
+import com.easv.rtl.friends.Data.BEFriend
 
 class ListAdapter(private val friends: List<BEFriend>, var clickListener: OnItemClickListener) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 

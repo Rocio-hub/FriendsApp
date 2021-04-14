@@ -10,13 +10,16 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.easv.rtl.friends.FriendDao_Impl
+import androidx.lifecycle.Observer
+import com.easv.rtl.friends.Data.BEFriend
+import com.easv.rtl.friends.Data.FriendDatabase
+import com.easv.rtl.friends.Data.FriendRepositoryInDB
 import com.easv.rtl.friends.IFriendDao
-import com.easv.rtl.friends.Model.BEFriend
 import com.easv.rtl.friends.R
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -30,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var friendsDb: IFriendDao
     //val context = this
    // val db = FriendDao_Impl(this)
+    lateinit var db : FriendDatabase
     lateinit var myImageBitmap: ByteArray
 
     //  var camFile: File? = null
@@ -37,7 +41,12 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        friendsDb = FriendDao_Impl(this)
+
+        FriendRepositoryInDB.initialize(this)
+        insertTestData()
+        setupDataObserver()
+
+       // friendsDb = FriendDao_Impl(this)
         checkPermissions()
 
         isUpdate = getIntent().getBooleanExtra("ISUPDATE", false)
@@ -49,7 +58,33 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun insertTestData() {
+        val repo = FriendRepositoryInDB.get()
+        repo.insert(BEFriend(0, "Lele", "123", byteArrayOf(0x2E, 0x38)))
+        repo.insert(BEFriend(0, "Yui", "456", byteArrayOf(0x2E, 0x38)))
+        repo.insert(BEFriend(0, "Chloe", "789", byteArrayOf(0x2E, 0x38)))
+    }
+
+    var cache: List<BEFriend>? = null
+
+    private fun setupDataObserver() {
+        val repo = FriendRepositoryInDB.get()
+        val nameObserver = Observer<List<BEFriend>> { friends ->
+            cache = friends
+            val asStrings = friends.map { f -> "${f.id}, ${f.name}" }
+            val adapter: ArrayAdapter<String> =
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    asStrings.toTypedArray())
+        }
+        repo.getAll().observe(this, nameObserver)
+    }
+
     fun onClickSave(view: View) {
+        val repo = FriendRepositoryInDB.get()
+        repo.insert(BEFriend(0, editText_name.toString(), editText_phone.toString(), byteArrayOf(0x2E, 0x38)))
+
         val intent = Intent(this, MainActivity::class.java)
         if (editText_name.text.toString().isNotEmpty() &&
             editText_phone.text.toString().isNotEmpty()
@@ -99,7 +134,6 @@ class DetailActivity : AppCompatActivity() {
         if (intent.resolveActivity(packageManager) != null) {
             startActivityForResult(intent, CAM_REQUEST_CODE)
         } else Log.d(TAG, "Camera cannot be started")
-
     }
 
 
@@ -128,7 +162,6 @@ class DetailActivity : AppCompatActivity() {
         if (permissions.size > 0)
             ActivityCompat.requestPermissions(this, permissions.toTypedArray(), REQUEST_CODE)
     }
-
 
     private fun isGranted(permission: String): Boolean =
         ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED

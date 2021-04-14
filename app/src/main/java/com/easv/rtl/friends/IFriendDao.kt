@@ -1,6 +1,6 @@
 package com.easv.rtl.friends
 
-import com.easv.rtl.friends.Model.BEFriend
+import com.easv.rtl.friends.Data.BEFriend
 
 interface IFriendDao {
 

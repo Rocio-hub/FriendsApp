@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.easv.rtl.friends.Model.BEFriend
+import com.easv.rtl.friends.Data.BEFriend
 
 class FriendDao_Impl : IFriendDao {
     var TAG: String = "xyz"
